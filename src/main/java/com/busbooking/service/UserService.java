@@ -33,4 +33,6 @@ public interface UserService {
 
 	/* ---------------------- ROLE ------------------------ */
 	public List<Role> findByIdRole(int id);
+
+	public List<User> findAllDistinctName();
 }

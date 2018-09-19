@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.busbooking.entities.Tour;
 import com.busbooking.entities.User;
 
 @Repository
@@ -32,4 +33,8 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
 
 	@Query("Select u from User u")
 	Page<User> findUser(Pageable pageable);
+	
+	/* ---------------- FIND ALL DISTINCT NAME ------------------------ */
+	@Query("SELECT DISTINCT u.name FROM User u")
+	List<User> findAllDistinctName();
 }

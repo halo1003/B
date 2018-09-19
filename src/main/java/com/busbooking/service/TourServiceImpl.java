@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.busbooking.entities.Bus;
 import com.busbooking.entities.Tour;
 import com.busbooking.repo.TourRepository;
 
@@ -102,6 +103,16 @@ public class TourServiceImpl implements TourService {
 		return tourRepository.findAllStartPlace();
 	}
 
-
+	/* ---------------- FIND ALL DISTINCT STARTPLACE ------------------------ */
+	@Override
+	public List<Tour> findAllDistinctStartPlace() {
+		return tourRepository.findAllDistinctStartPlace();
+	}
+	
+	/* ---------------- FIND ALL DISTINCT ENDPLACE ------------------------ */
+	@Override
+	public List<Tour> findAllDistinctEndPlace() {
+		return tourRepository.findAllDistinctEndPlace();
+	}
 
 }

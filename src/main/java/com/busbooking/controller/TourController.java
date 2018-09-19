@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.busbooking.entities.Bus;
 import com.busbooking.entities.Tour;
 import com.busbooking.service.TourService;
 
@@ -168,7 +169,7 @@ public class TourController {
 	@GetMapping(value = "/epandst")
 	public ResponseEntity<Object> findTourByEndPlaceAndStartTime(
 			@RequestParam(value = "s", required = false) String endPlace,
-			@RequestParam("s") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
+			@RequestParam("t") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
 			@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
 			@RequestParam(name = "size", required = false, defaultValue = "5") Integer size,
 			@RequestParam(name = "sort", required = false, defaultValue = "ASC") String sort) {
@@ -192,7 +193,7 @@ public class TourController {
 			@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
 			@RequestParam(name = "size", required = false, defaultValue = "5") Integer size,
 			@RequestParam(name = "sort", required = false, defaultValue = "asc") String sort,
-			@RequestParam(name = "e", required = false, defaultValue = "name") String element) {
+			@RequestParam(name = "el", required = false, defaultValue = "name") String element) {
 
 		Sort sortable = null;
 		if (sort.equals("ASC")) {
@@ -254,5 +255,19 @@ public class TourController {
 		tourService.deleteAll();
 
 		return new ResponseEntity<>("All tour have been deleted!", HttpStatus.OK);
+	}
+	
+	/* ---------------- GET ALL DISTINCT STARTPLACE ------------------------ */
+	@GetMapping(value = "/distinctstartplace")
+	public ResponseEntity<List<Tour>> findAllDistinctStartPlace() {
+		List<Tour> tours = tourService.findAllDistinctStartPlace();
+		return new ResponseEntity<List<Tour>>(tours, HttpStatus.OK);
+	}
+	
+	/* ---------------- GET ALL DISTINCT ENDPLACE ------------------------ */
+	@GetMapping(value = "/distinctendplace")
+	public ResponseEntity<List<Tour>> findAllDistinctEndPlace() {
+		List<Tour> tours = tourService.findAllDistinctEndPlace();
+		return new ResponseEntity<List<Tour>>(tours, HttpStatus.OK);
 	}
 }

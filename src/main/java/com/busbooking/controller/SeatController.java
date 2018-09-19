@@ -61,7 +61,7 @@ public class SeatController {
 	public ResponseEntity<List<Seat>> findBookedSeatForTicket(
 			@RequestParam("idT") int idTour,
 			@RequestParam("idB") int idBus){
-		List<Seat> _seat = seatService.findBookedSeatForTicket(idTour, idBus);
+		List<Seat> _seat = seatService.findEmptySeatForTicket(idTour, idBus);
 		if(_seat.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {

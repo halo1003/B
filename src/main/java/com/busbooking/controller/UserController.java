@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.busbooking.entities.User;
 import com.busbooking.entities.Role;
+import com.busbooking.entities.Tour;
 import com.busbooking.entities.User;
 import com.busbooking.repo.RoleRepository;
 import com.busbooking.repo.UserRepository;
@@ -191,6 +193,13 @@ public class UserController {
 			httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<String>(result, httpStatus);
+	}
+	
+	/* ---------------- GET ALL DISTINCT NAME ------------------------ */
+	@GetMapping(value = "/distinctname")
+	public ResponseEntity<List<User>> findAllDistinctName() {
+		List<User> users = userService.findAllDistinctName();
+		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
 
 }

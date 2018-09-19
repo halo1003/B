@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.busbooking.entities.Bus;
 import com.busbooking.entities.Tour;
 
 @Repository
@@ -47,5 +48,13 @@ public interface TourRepository extends JpaRepository<Tour, Integer> {
 
 	@Query("SELECT DISTINCT t.startPlace FROM Tour t")
 	List<Tour> findAllStartPlace();	
+	
+	/* ---------------- FIND ALL DISTINCT STARTPLACE ------------------------ */
+	@Query("SELECT DISTINCT t.startPlace FROM Tour t")
+	List<Tour> findAllDistinctStartPlace();
+	
+	/* ---------------- FIND ALL DISTINCT ENDPLACE ------------------------ */
+	@Query("SELECT DISTINCT t.endPlace FROM Tour t")
+	List<Tour> findAllDistinctEndPlace();
 
 }

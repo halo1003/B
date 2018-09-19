@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.busbooking.entities.Role;
+import com.busbooking.entities.Tour;
 import com.busbooking.entities.User;
 import com.busbooking.repo.RoleRepository;
 import com.busbooking.repo.UserRepository;
@@ -107,6 +108,10 @@ public class UserServiceImpl implements UserService {
 		return roleRepository.findById(id);
 	}
 
-
+	/* ---------------- FIND ALL DISTINCT NAME ------------------------ */
+	@Override
+	public List<User> findAllDistinctName() {
+		return userRepository.findAllDistinctName();
+	}
 
 }

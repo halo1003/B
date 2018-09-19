@@ -36,7 +36,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 
 
 	/* ---------------- FIND TICKET BY USER ID ------------------------ */
-	@Query(value = "SELECT t.* FROM ticket t WHERE t.user_id = :userId", nativeQuery = true)
+	@Query(value = "SELECT t.* FROM Ticket t WHERE t.user_id = :userId", nativeQuery = true)
 	List<Ticket> findTicketByUserId(@Param("userId") int userId);
 
 	/* ---------------- FIND TOUR, BUS, SEAT ------------------------ */

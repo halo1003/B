@@ -37,8 +37,13 @@ public interface TourService {
 
 	public void deleteById(int id);
 
-	public List<Tour> findAllStartPlace();	
+	public List<Tour> findAllStartPlace();
 
+	public List<Tour> findAllDistinctStartPlace();
+
+	public List<Tour> findAllDistinctEndPlace();
+
+	
 	
 
 }
