@@ -33,4 +33,8 @@ public interface UserService {
 
 	/* ---------------------- ROLE ------------------------ */
 	public List<Role> findByIdRole(int id);
+
+	public Page<User> findByUserByName(String name, Pageable pageable);
+
+	public Optional<User> findByUserByUsername(String username);
 }

@@ -23,10 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.busbooking.entities.User;
-import com.busbooking.entities.Role;
-import com.busbooking.entities.User;
-import com.busbooking.repo.RoleRepository;
-import com.busbooking.repo.UserRepository;
 import com.busbooking.service.JwtService;
 import com.busbooking.service.UserService;
 import com.busbooking.validator.UserValidator;
@@ -92,6 +88,38 @@ public class UserController {
 		Pageable pageable = PageRequest.of(page, size, sortable);
 		return new ResponseEntity<Object>(userService.findUser(pageable), HttpStatus.OK);
 	}
+	
+	/* ---------------- PAGEABLE USER BY NAME ------------------------ */
+	@RequestMapping(value = "/name", method = RequestMethod.GET)
+	public ResponseEntity<Object> findByUserByName(
+			@RequestParam("n") String name,
+			@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+			@RequestParam(name = "size", required = false, defaultValue = "5") Integer size,
+			@RequestParam(name = "sort", required = false, defaultValue = "asc") String sort,
+			@RequestParam(name = "e", required = false, defaultValue = "name") String element) {
+		Sort sortable = null;
+
+		if (sort.equals("asc")) {
+			sortable = Sort.by(element).ascending();
+		}
+		if (sort.equals("desc")) {
+			sortable = Sort.by(element).descending();
+		}
+		Pageable pageable = PageRequest.of(page, size, sortable);
+		return new ResponseEntity<Object>(userService.findByUserByName(name, pageable), HttpStatus.OK);
+	}
+	
+	/* ---------------- GET USER BY USERNAME ------------------------ */
+	@RequestMapping(value = "/username", method = RequestMethod.GET)
+	public ResponseEntity<Object> findByUserByUsername(@RequestParam("u") String username) {
+		Optional<User> user = userService.findByUserByUsername(username);
+		if (user.isPresent()) {
+			return new ResponseEntity<Object>(user, HttpStatus.OK);
+		}
+		return new ResponseEntity<Object>("Not Found User", HttpStatus.NO_CONTENT);
+	}
+	
+	
 
 	/* ---------------- CREATE NEW USER ------------------------ */
 	@RequestMapping(value = "/create", method = RequestMethod.POST)

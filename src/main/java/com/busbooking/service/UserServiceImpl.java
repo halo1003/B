@@ -107,6 +107,18 @@ public class UserServiceImpl implements UserService {
 		return roleRepository.findById(id);
 	}
 
+	@Override
+	public Page<User> findByUserByName(String name, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return userRepository.findByUserByName(name, pageable);
+	}
+	
+	@Override
+	public Optional<User> findByUserByUsername(String username) {
+		// TODO Auto-generated method stub
+		return userRepository.findByUserByUsername(username);
+	}
+
 
 
 }

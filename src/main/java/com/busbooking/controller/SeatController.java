@@ -3,6 +3,9 @@ package com.busbooking.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -46,11 +49,10 @@ public class SeatController {
 	}
 
 	@GetMapping(value = "/empty")
-	public ResponseEntity<List<Seat>> findEmptySeatForTicket(
-			@RequestParam("idT") int idTour,
-			@RequestParam("idB") int idBus){
+	public ResponseEntity<List<Seat>> findEmptySeatForTicket(@RequestParam("idT") int idTour,
+			@RequestParam("idB") int idBus) {
 		List<Seat> _seat = seatService.findEmptySeatForTicket(idTour, idBus);
-		if(_seat.isEmpty()) {
+		if (_seat.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<List<Seat>>(_seat, HttpStatus.OK);
@@ -58,15 +60,42 @@ public class SeatController {
 	}
 
 	@GetMapping(value = "/booked")
-	public ResponseEntity<List<Seat>> findBookedSeatForTicket(
-			@RequestParam("idT") int idTour,
-			@RequestParam("idB") int idBus){
-		List<Seat> _seat = seatService.findBookedSeatForTicket(idTour, idBus);
-		if(_seat.isEmpty()) {
+	public ResponseEntity<List<Seat>> findBookedSeatForTicket(@RequestParam("idT") int idTour,
+			@RequestParam("idB") int idBus) {
+		List<Seat> _seat = seatService.findEmptySeatForTicket(idTour, idBus);
+		if (_seat.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<List<Seat>>(_seat, HttpStatus.OK);
 		}
+	}
+
+	@GetMapping(value = "/seatEmptyForTour")
+	public ResponseEntity<List<Seat>> findEmptySeatForTour(@RequestParam("idT") int idTour,
+			@RequestParam("idB") int idBus) {
+		List<Seat> _seat = seatService.findEmptySeatForTicket(idTour, idBus);
+		if (_seat.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<List<Seat>>(_seat, HttpStatus.OK);
+		}
+	}
+
+	@GetMapping(value = "/seatBookedForTour")
+	public ResponseEntity<Object> findBookedSeatForTour(@RequestParam("idT") int idTour, @RequestParam("idB") int idBus,
+			@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+			@RequestParam(name = "size", required = false, defaultValue = "5") Integer size,
+			@RequestParam(name = "sort", required = false, defaultValue = "asc") String sort,
+			@RequestParam(name = "e", required = false, defaultValue = "id") String element) {
+		Sort sortable = null;
+		if (sort.equals("asc")) {
+			sortable = Sort.by(element).ascending();
+		}
+		if (sort.equals("desc")) {
+			sortable = Sort.by(element).descending();
+		}
+		Pageable pageable = PageRequest.of(page, size, sortable);
+		return new ResponseEntity<Object>(seatService.findBookedSeatForTour(idTour, idBus, pageable), HttpStatus.OK);
 	}
 
 }
