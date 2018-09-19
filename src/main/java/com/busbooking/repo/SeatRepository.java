@@ -3,6 +3,8 @@ package com.busbooking.repo;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -71,5 +73,43 @@ public interface SeatRepository extends JpaRepository<Seat, Integer> {
 			"                and tk.bus_idbus = :idBus " +
 			"        )", nativeQuery= true)
 	List<Seat> findBookedSeatForTicket(@Param("idTour") int idTour, @Param("idBus") int idBus);
+	
+	
+	/* ---------------- FIND SEAT EMPTY TOUR ------------------------ */
+	@Query(value = "SELECT s.*, b.*, t.* " +
+			"FROM seat s " +
+			"INNER JOIN bus b " +
+			"ON s.bus_idbus = b.idbus " +
+			"INNER JOIN tour t " +
+			"ON b.tour_idtour = t.idtour " +
+			"WHERE t.idtour = :idTour " +
+			"AND b.idbus = :idBus " +
+			"AND s.idseat NOT IN " +
+			"		(" +
+			"        select  tk.seat_idseat " +
+			"        from    ticket tk " +
+			"        where   tk.tour_idtour = :idTour " +
+			"                and tk.bus_idbus = :idBus " +
+			"        )", nativeQuery= true)
+	Page<Seat> findEmptySeatForTour(@Param("idTour") int idTour, @Param("idBus") int idBus, Pageable pageable);
+
+	/* ---------------- FIND SEAT BOOKED TICKET------------------------ */
+	@Query(value = "SELECT s.*, b.*, t.* " +
+			"FROM seat s " +
+			"INNER JOIN bus b " +
+			"ON s.bus_idbus = b.idbus " +
+			"INNER JOIN tour t " +
+			"ON b.tour_idtour = t.idtour " +
+			"WHERE t.idtour = :idTour " +
+			"AND b.idbus = :idBus " +
+			"AND s.idseat IN " +
+			"		(" +
+			"        select  tk.seat_idseat " +
+			"        from    ticket tk " +
+			"        where   tk.tour_idtour = :idTour " +
+			"                and tk.bus_idbus = :idBus " +
+			"        )", nativeQuery= true)
+	Page<Seat> findBookedSeatForTour(@Param("idTour") int idTour, @Param("idBus") int idBus, Pageable pageable);
+
 }
 

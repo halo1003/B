@@ -24,16 +24,16 @@ public class TourServiceImpl implements TourService {
 	public Page<Tour> findAll(Pageable bageable) {
 		return tourRepository.findAllByOrderByIdDesc(bageable);
 	}
-	
+
 	/* ---------------- FIND TOUR BY ID WITHOUT OPTIONAL ------------------------ */
 	@Override
 	public Tour findOne(int idTour) {
 		return tourRepository.findOne(idTour);
 	}
-	
+
 	/* ---------------- FIND TOUR BY PARAM ------------------------ */
 	@Override
-	public Page<Tour> findTourByParam(String startPlace, String endPlace, LocalDateTime startTime, Pageable pageable){
+	public Page<Tour> findTourByParam(String startPlace, String endPlace, LocalDateTime startTime, Pageable pageable) {
 		return tourRepository.findTourByParam(startPlace, endPlace, startTime, pageable);
 	}
 
@@ -108,7 +108,7 @@ public class TourServiceImpl implements TourService {
 	public List<Tour> findAllDistinctStartPlace() {
 		return tourRepository.findAllDistinctStartPlace();
 	}
-	
+
 	/* ---------------- FIND ALL DISTINCT ENDPLACE ------------------------ */
 	@Override
 	public List<Tour> findAllDistinctEndPlace() {

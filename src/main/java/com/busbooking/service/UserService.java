@@ -35,4 +35,8 @@ public interface UserService {
 	public List<Role> findByIdRole(int id);
 
 	public List<User> findAllDistinctName();
+
+	public Page<User> findByUserByName(String name, Pageable pageable);
+
+	public Optional<User> findByUserByUsername(String username);
 }

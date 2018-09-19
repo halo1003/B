@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.busbooking.entities.Bus;
@@ -57,6 +59,16 @@ public class SeatService {
 	/* ---------------- FIND SEAT BOOKED TICKET ------------------------ */
 	public List<Seat> findBookedSeatForTicket(int idTour, int idBus){
 		return seatRepository.findBookedSeatForTicket(idTour, idBus);
+	}
+	
+	/* ---------------- FIND EMPTY SEAT TOUR ------------------------ */
+	public Page<Seat> findEmptySeatForTour(int idTour, int idBus, Pageable pageable){
+		return seatRepository.findEmptySeatForTour(idTour, idBus, pageable);
+	}
+	
+	/* ---------------- FIND SEAT BOOKED TOUR ------------------------ */
+	public Page<Seat> findBookedSeatForTour(int idTour, int idBus, Pageable pageable){
+		return seatRepository.findBookedSeatForTour(idTour, idBus, pageable);
 	}
 
 }
